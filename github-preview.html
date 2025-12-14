@@ -220,6 +220,45 @@
         .hidden {
             display: none;
         }
+
+        /* Full-screen mode styles */
+        body.fullscreen {
+            padding: 0;
+            background: white;
+        }
+
+        body.fullscreen .container {
+            max-width: none;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            background: white;
+        }
+
+        body.fullscreen h1,
+        body.fullscreen .input-section,
+        body.fullscreen .loading {
+            display: none;
+        }
+
+        body.fullscreen .preview-container {
+            margin-top: 0;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.fullscreen .preview-header {
+            border-radius: 0;
+        }
+
+        body.fullscreen #previewFrame {
+            flex: 1;
+            min-height: 0;
+        }
     </style>
 </head>
 <body>
@@ -381,8 +420,31 @@
             }
         }
 
-        // Auto-focus input on load
-        githubUrlInput.focus();
+        // Check for URL parameter on page load
+        function checkUrlParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlParam = urlParams.get('url');
+
+            if (urlParam) {
+                // Enable full-screen mode
+                document.body.classList.add('fullscreen');
+
+                // Set the URL in the input
+                githubUrlInput.value = decodeURIComponent(urlParam);
+
+                // Show the preview container immediately
+                previewContainer.classList.remove('hidden');
+
+                // Load the preview
+                loadPreview();
+            } else {
+                // Auto-focus input on load (only if not in URL mode)
+                githubUrlInput.focus();
+            }
+        }
+
+        // Run on page load
+        checkUrlParameter();
     </script>
 </body>
 </html>
