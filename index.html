@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricity Usage Viewer</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Sleep Wave Timer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,7 +22,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 600px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.98);
             padding: 40px;
@@ -38,205 +37,212 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             font-size: 2.5rem;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
 
-        .file-input {
-            margin-bottom: 30px;
-            padding: 40px;
-            border: 3px dashed #667eea;
-            border-radius: 16px;
+        .subtitle {
             text-align: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .file-input:hover {
-            border-color: #764ba2;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .file-input.drag-over {
-            border-color: #764ba2;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-            transform: scale(1.02);
-        }
-
-        .file-input h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .file-input p {
             color: #666;
+            margin-bottom: 30px;
             font-size: 0.95rem;
-            margin-top: 10px;
         }
 
-        .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.7;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .file-label {
-            display: inline-block;
-            padding: 12px 32px;
+        .timer-display {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 15px 0;
-        }
-
-        .file-label:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .chart-container {
-            margin: 30px 0;
-            height: 500px;
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .month-selector {
-            margin: 30px 0;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            padding: 20px;
-            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .month-selector label {
-            font-weight: 600;
-            color: #333;
-            margin-right: 10px;
+        .timer-display.warning {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .interval-count {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
-        select {
-            padding: 12px 20px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            background: white;
-            color: #333;
-            font-family: 'Inter', sans-serif;
+        .time {
+            color: white;
+            font-size: 4rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .status {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-top: 10px;
             font-weight: 500;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 200px;
+            font-family: 'Inter', sans-serif;
         }
 
-        select:hover {
-            border-color: #667eea;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        select:focus {
-            outline: none;
-            border-color: #764ba2;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        .btn:active {
+            transform: translateY(0);
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .stat-card {
+        .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
             color: white;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            grid-column: 1 / -1;
         }
 
-        .stat-label {
-            color: rgba(255, 255, 255, 0.95);
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .outcome-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .wake-lock-status {
+            text-align: center;
+            padding: 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
             font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            color: #666;
         }
 
-        .stat-sublabel {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.8rem;
-            margin-top: 4px;
+        .wake-lock-status.active {
+            background: rgba(86, 171, 47, 0.1);
+            color: #56ab2f;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .history-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease;
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .history-header h2 {
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .btn-clear {
+            padding: 8px 16px;
+            background: #f45c43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background: #eb3349;
+        }
+
+        .history-item {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .history-item.success {
+            border-left-color: #56ab2f;
+        }
+
+        .history-item.gave-up {
+            border-left-color: #eb3349;
+        }
+
+        .history-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .history-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-outcome {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .history-intervals {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-style: italic;
         }
 
         @media (max-width: 768px) {
@@ -248,407 +254,307 @@
                 font-size: 2rem;
             }
 
-            .stats {
-                grid-template-columns: 1fr;
+            .time {
+                font-size: 3rem;
             }
-
-            .chart-container {
-                height: 350px;
-            }
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .file-name {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 20px;
-            color: #667eea;
-            font-weight: 600;
-            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>⚡ Electricity Usage Viewer</h1>
+        <h1>😴 Sleep Wave Timer</h1>
+        <p class="subtitle">5-minute intervals with 30-second warnings</p>
 
-        <div class="file-input" id="dropZone">
-            <div class="upload-icon">📊</div>
-            <h3>Upload Your Data</h3>
-            <label for="csvFile" class="file-label">Choose CSV File</label>
-            <input type="file" id="csvFile" accept=".csv" />
-            <p>or drag and drop your PSE electric usage CSV file here</p>
-            <div id="fileName"></div>
+        <div class="wake-lock-status" id="wakeLockStatus">
+            Wake Lock: Not Active
         </div>
 
-        <div class="loading" id="loading">Processing your data...</div>
-
-        <div class="month-selector">
-            <label for="monthSelect">📅 Select Period:</label>
-            <select id="monthSelect">
-                <option value="">All Months</option>
-            </select>
+        <div class="timer-display" id="timerDisplay">
+            <div class="interval-count" id="intervalCount">Interval: 0</div>
+            <div class="time" id="timeDisplay">5:00</div>
+            <div class="status" id="statusDisplay">Ready to start</div>
         </div>
 
-        <div class="stats fade-in" id="statsContainer">
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" onclick="toggleTimer()">Start Timer</button>
         </div>
 
-        <div class="chart-container fade-in">
-            <canvas id="usageChart"></canvas>
+        <div class="controls" id="resetControls" style="display: none;">
+            <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+            <button class="btn btn-secondary" onclick="toggleTimer()">Pause</button>
+        </div>
+
+        <div class="outcome-buttons" id="outcomeButtons" style="display: none;">
+            <button class="btn btn-success" onclick="markOutcome('asleep')">😴 Baby Fell Asleep</button>
+            <button class="btn btn-danger" onclick="markOutcome('gave-up')">😓 Gave Up</button>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <h2>📊 History</h2>
+                <button class="btn-clear" onclick="clearHistory()">Clear All</button>
+            </div>
+            <div id="historyList"></div>
         </div>
     </div>
 
     <script>
-        let allData = [];
-        let chart = null;
+        const INTERVAL_DURATION = 5 * 60; // 5 minutes in seconds
+        const WARNING_TIME = 30; // 30 seconds warning
 
-        const monthNames = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
+        let timerInterval = null;
+        let wakeLock = null;
+        let currentIntervalCount = 0;
+        let totalSeconds = INTERVAL_DURATION;
+        let isRunning = false;
+        let sessionStartTime = null;
 
-        // File input change event
-        document.getElementById('csvFile').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                handleFile(file);
+        // Audio context for beeps
+        let audioContext = null;
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
-        });
+        }
 
-        // Drag and drop functionality
-        const dropZone = document.getElementById('dropZone');
+        function playBeep(frequency = 800, duration = 200) {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
 
-        dropZone.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZone.classList.add('drag-over');
-        });
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
 
-        dropZone.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZone.classList.remove('drag-over');
-        });
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
 
-        dropZone.addEventListener('drop', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZone.classList.remove('drag-over');
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
 
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.name.endsWith('.csv')) {
-                    handleFile(file);
-                } else {
-                    alert('Please drop a CSV file');
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        function vibrate(pattern) {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(pattern);
+            }
+        }
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    updateWakeLockStatus(true);
+
+                    wakeLock.addEventListener('release', () => {
+                        updateWakeLockStatus(false);
+                    });
                 }
+            } catch (err) {
+                console.error('Wake Lock error:', err);
             }
-        });
+        }
 
-        function handleFile(file) {
-            document.getElementById('fileName').innerHTML = `<span class="file-name">📄 ${file.name}</span>`;
-            document.getElementById('loading').classList.add('active');
+        function releaseWakeLock() {
+            if (wakeLock) {
+                wakeLock.release();
+                wakeLock = null;
+                updateWakeLockStatus(false);
+            }
+        }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                setTimeout(() => {
-                    parseCSV(e.target.result);
-                    document.getElementById('loading').classList.remove('active');
-                }, 300);
+        function updateWakeLockStatus(active) {
+            const status = document.getElementById('wakeLockStatus');
+            if (active) {
+                status.textContent = '🔒 Wake Lock: Active (screen will stay on)';
+                status.classList.add('active');
+            } else {
+                status.textContent = 'Wake Lock: Not Active';
+                status.classList.remove('active');
+            }
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            if (!sessionStartTime) {
+                sessionStartTime = new Date();
+            }
+
+            isRunning = true;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('resetControls').style.display = 'grid';
+            document.getElementById('outcomeButtons').style.display = 'grid';
+
+            requestWakeLock();
+
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+
+                if (totalSeconds === WARNING_TIME) {
+                    // 30-second warning
+                    showWarning();
+                    playBeep(600, 300);
+                    vibrate([200, 100, 200]);
+                }
+
+                if (totalSeconds <= 0) {
+                    // Interval complete
+                    completeInterval();
+                }
+
+                updateDisplay();
+            }, 1000);
+
+            updateDisplay();
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('resetControls').style.display = 'none';
+            document.getElementById('statusDisplay').textContent = 'Paused';
+            releaseWakeLock();
+        }
+
+        function resetTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            currentIntervalCount = 0;
+            totalSeconds = INTERVAL_DURATION;
+            sessionStartTime = null;
+
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('resetControls').style.display = 'none';
+            document.getElementById('outcomeButtons').style.display = 'none';
+            document.getElementById('timerDisplay').classList.remove('warning');
+            document.getElementById('statusDisplay').textContent = 'Ready to start';
+
+            releaseWakeLock();
+            updateDisplay();
+        }
+
+        function completeInterval() {
+            currentIntervalCount++;
+            totalSeconds = INTERVAL_DURATION;
+
+            // Alert for interval completion
+            playBeep(1000, 500);
+            playBeep(1200, 500);
+            vibrate([300, 100, 300, 100, 300]);
+
+            document.getElementById('timerDisplay').classList.remove('warning');
+            updateDisplay();
+        }
+
+        function showWarning() {
+            document.getElementById('timerDisplay').classList.add('warning');
+            document.getElementById('statusDisplay').textContent = '⚠️ 30 seconds remaining!';
+        }
+
+        function updateDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            document.getElementById('timeDisplay').textContent = timeString;
+            document.getElementById('intervalCount').textContent = `Interval: ${currentIntervalCount}`;
+
+            if (isRunning && totalSeconds > WARNING_TIME) {
+                document.getElementById('statusDisplay').textContent = 'Timer running...';
+                document.getElementById('timerDisplay').classList.remove('warning');
+            }
+        }
+
+        function markOutcome(outcome) {
+            const session = {
+                timestamp: new Date().toISOString(),
+                startTime: sessionStartTime,
+                endTime: new Date(),
+                intervals: currentIntervalCount,
+                outcome: outcome,
+                duration: calculateDuration()
             };
-            reader.readAsText(file);
+
+            saveToHistory(session);
+            resetTimer();
+            displayHistory();
         }
 
-        document.getElementById('monthSelect').addEventListener('change', function() {
-            updateChart();
+        function calculateDuration() {
+            if (!sessionStartTime) return 0;
+            const endTime = new Date();
+            return Math.round((endTime - sessionStartTime) / 1000 / 60); // minutes
+        }
+
+        function saveToHistory(session) {
+            let history = getHistory();
+            history.unshift(session);
+            // Keep only last 50 sessions
+            if (history.length > 50) {
+                history = history.slice(0, 50);
+            }
+            localStorage.setItem('sleepWaveHistory', JSON.stringify(history));
+        }
+
+        function getHistory() {
+            const history = localStorage.getItem('sleepWaveHistory');
+            return history ? JSON.parse(history) : [];
+        }
+
+        function displayHistory() {
+            const history = getHistory();
+            const historyList = document.getElementById('historyList');
+
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No sessions yet. Start your first timer!</div>';
+                return;
+            }
+
+            historyList.innerHTML = history.map(session => {
+                const date = new Date(session.timestamp);
+                const dateString = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                const outcomeText = session.outcome === 'asleep' ? '😴 Baby Fell Asleep' : '😓 Gave Up';
+                const outcomeClass = session.outcome === 'asleep' ? 'success' : 'gave-up';
+
+                return `
+                    <div class="history-item ${outcomeClass}">
+                        <div class="history-date">${dateString}</div>
+                        <div class="history-details">
+                            <span class="history-outcome">${outcomeText}</span>
+                            <span class="history-intervals">${session.intervals} interval${session.intervals !== 1 ? 's' : ''} (${session.duration} min)</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all history?')) {
+                localStorage.removeItem('sleepWaveHistory');
+                displayHistory();
+            }
+        }
+
+        // Handle page visibility changes to maintain wake lock
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                await requestWakeLock();
+            }
         });
 
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n');
-            allData = [];
-
-            let dataStartIndex = -1;
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].includes('TYPE,DATE,START TIME,END TIME,USAGE')) {
-                    dataStartIndex = i + 1;
-                    break;
-                }
-            }
-
-            if (dataStartIndex === -1) return;
-
-            for (let i = dataStartIndex; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line || !line.includes('Electric usage')) continue;
-
-                const parts = line.split(',');
-                if (parts.length >= 5) {
-                    const date = parts[1];
-                    const startTime = parts[2];
-                    const usage = parseFloat(parts[4]);
-
-                    if (!isNaN(usage) && date && startTime) {
-                        const dateObj = new Date(date + 'T' + startTime);
-                        if (!isNaN(dateObj.getTime())) {
-                            allData.push({
-                                date: dateObj,
-                                hour: dateObj.getHours(),
-                                month: dateObj.getMonth(),
-                                year: dateObj.getFullYear(),
-                                usage: usage
-                            });
-                        }
-                    }
-                }
-            }
-
-            populateMonthSelector();
-            updateChart();
-        }
-
-        function populateMonthSelector() {
-            const monthSelect = document.getElementById('monthSelect');
-            const months = new Set();
-
-            allData.forEach(record => {
-                months.add(`${record.year}-${record.month}`);
-            });
-
-            const sortedMonths = Array.from(months).sort();
-
-            monthSelect.innerHTML = '<option value="">All Months</option>';
-            sortedMonths.forEach(monthKey => {
-                const [year, month] = monthKey.split('-');
-                const monthName = monthNames[parseInt(month)];
-                const option = document.createElement('option');
-                option.value = monthKey;
-                option.textContent = `${monthName} ${year}`;
-                monthSelect.appendChild(option);
-            });
-        }
-
-        function updateChart() {
-            const selectedMonth = document.getElementById('monthSelect').value;
-            let filteredData = allData;
-
-            if (selectedMonth) {
-                const [year, month] = selectedMonth.split('-');
-                filteredData = allData.filter(record =>
-                    record.year === parseInt(year) && record.month === parseInt(month)
-                );
-            }
-
-            const hourlyAverages = calculateHourlyAverages(filteredData);
-            updateStats(filteredData, hourlyAverages);
-            renderChart(hourlyAverages);
-        }
-
-        function calculateHourlyAverages(data) {
-            const hourlyData = {};
-
-            for (let hour = 0; hour < 24; hour++) {
-                hourlyData[hour] = [];
-            }
-
-            data.forEach(record => {
-                hourlyData[record.hour].push(record.usage);
-            });
-
-            const averages = {};
-            for (let hour = 0; hour < 24; hour++) {
-                if (hourlyData[hour].length > 0) {
-                    averages[hour] = hourlyData[hour].reduce((sum, usage) => sum + usage, 0) / hourlyData[hour].length;
-                } else {
-                    averages[hour] = 0;
-                }
-            }
-
-            return averages;
-        }
-
-        function formatHour(hour) {
-            const h = parseInt(hour);
-            if (h === 0) return '12 AM';
-            if (h === 12) return '12 PM';
-            if (h < 12) return `${h} AM`;
-            return `${h - 12} PM`;
-        }
-
-        function updateStats(data, hourlyAverages) {
-            const statsContainer = document.getElementById('statsContainer');
-
-            const totalUsage = data.reduce((sum, record) => sum + record.usage, 0);
-            const avgUsage = data.length > 0 ? totalUsage / data.length : 0;
-            const maxHourlyAvg = Math.max(...Object.values(hourlyAverages));
-            const minHourlyAvg = Math.min(...Object.values(hourlyAverages));
-            const peakHour = Object.keys(hourlyAverages).find(hour => hourlyAverages[hour] === maxHourlyAvg);
-            const lowHour = Object.keys(hourlyAverages).find(hour => hourlyAverages[hour] === minHourlyAvg);
-
-            statsContainer.innerHTML = `
-                <div class="stat-card fade-in">
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-value">${totalUsage.toFixed(2)}</div>
-                    <div class="stat-label">Total kWh</div>
-                </div>
-                <div class="stat-card fade-in" style="animation-delay: 0.1s">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-value">${avgUsage.toFixed(3)}</div>
-                    <div class="stat-label">Avg kWh per Reading</div>
-                </div>
-                <div class="stat-card fade-in" style="animation-delay: 0.2s">
-                    <div class="stat-icon">🔥</div>
-                    <div class="stat-value">${formatHour(peakHour)}</div>
-                    <div class="stat-label">Peak Hour</div>
-                    <div class="stat-sublabel">${maxHourlyAvg.toFixed(3)} kWh avg</div>
-                </div>
-                <div class="stat-card fade-in" style="animation-delay: 0.3s">
-                    <div class="stat-icon">🌙</div>
-                    <div class="stat-value">${formatHour(lowHour)}</div>
-                    <div class="stat-label">Low Hour</div>
-                    <div class="stat-sublabel">${minHourlyAvg.toFixed(3)} kWh avg</div>
-                </div>
-            `;
-        }
-
-        function renderChart(hourlyAverages) {
-            const ctx = document.getElementById('usageChart').getContext('2d');
-
-            if (chart) {
-                chart.destroy();
-            }
-
-            const hours = Object.keys(hourlyAverages).map(hour => formatHour(hour));
-            const usageData = Object.values(hourlyAverages);
-
-            // Create gradient for chart
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(102, 126, 234, 0.8)');
-            gradient.addColorStop(1, 'rgba(118, 75, 162, 0.3)');
-
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: hours,
-                    datasets: [{
-                        label: 'Average Usage (kWh)',
-                        data: usageData,
-                        borderColor: '#667eea',
-                        backgroundColor: gradient,
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#667eea',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointHoverBackgroundColor: '#764ba2',
-                        pointHoverBorderColor: '#fff',
-                        pointHoverBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Usage (kWh)',
-                                font: {
-                                    size: 14,
-                                    weight: '600',
-                                    family: "'Inter', sans-serif"
-                                },
-                                color: '#333'
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Inter', sans-serif"
-                                },
-                                color: '#666'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Hour of Day',
-                                font: {
-                                    size: 14,
-                                    weight: '600',
-                                    family: "'Inter', sans-serif"
-                                },
-                                color: '#333'
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Inter', sans-serif"
-                                },
-                                color: '#666'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Average Electricity Usage by Hour of Day',
-                            font: {
-                                size: 18,
-                                weight: '700',
-                                family: "'Inter', sans-serif"
-                            },
-                            color: '#333',
-                            padding: 20
-                        },
-                        legend: {
-                            labels: {
-                                font: {
-                                    family: "'Inter', sans-serif",
-                                    size: 13
-                                },
-                                color: '#333',
-                                padding: 15
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleFont: {
-                                family: "'Inter', sans-serif",
-                                size: 14,
-                                weight: '600'
-                            },
-                            bodyFont: {
-                                family: "'Inter', sans-serif",
-                                size: 13
-                            },
-                            padding: 12,
-                            cornerRadius: 8
-                        }
-                    }
-                }
-            });
-        }
+        // Initialize on load
+        displayHistory();
+        updateDisplay();
     </script>
 </body>
 </html>
